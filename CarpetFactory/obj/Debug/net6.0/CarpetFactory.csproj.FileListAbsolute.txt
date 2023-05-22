@@ -1,0 +1,15 @@
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.csproj.AssemblyReference.cache
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.AssemblyInfoInputs.cache
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.AssemblyInfo.cs
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.csproj.CoreCompileInputs.cache
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\bin\Debug\net6.0\CarpetFactory.exe
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\bin\Debug\net6.0\CarpetFactory.deps.json
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\bin\Debug\net6.0\CarpetFactory.runtimeconfig.json
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\bin\Debug\net6.0\CarpetFactory.dll
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\bin\Debug\net6.0\CarpetFactory.pdb
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.dll
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\refint\CarpetFactory.dll
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.pdb
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\CarpetFactory.genruntimeconfig.cache
+C:\Users\feres\Desktop\Carpet-Factory\CarpetFactory\obj\Debug\net6.0\ref\CarpetFactory.dll

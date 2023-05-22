@@ -2,26 +2,26 @@
 
 namespace CarpetFactory;
 
-class Vertex<T>
+class Vertex
 {
 
-    List<Vertex<T>> neighbors;   
-    T value;
+    private List<Vertex> neighbors;   
+    int value;
     bool isVisited;
 
-    public List<Vertex<T>> Neighbors { get { return neighbors; } set { neighbors = value; } }
-    public T Value { get { return value; } set { this.value = value; } }
+    public List<Vertex> Neighbors { get { return neighbors; } set { neighbors = value; } }
+    public int Value { get { return value; } set { this.value = value; } }
     public bool IsVisited { get { return isVisited; } set { isVisited = value; } }
     public int NeighborsCount { get { return neighbors.Count; } }
 
-    public Vertex(T value)
+    public Vertex(int value)
     {
         this.value = value;
         isVisited = false;
-        neighbors = new List<Vertex<T>>();
+        neighbors = new List<Vertex>();
     }
 
-    public Vertex(T value, List<Vertex<T>> neighbors)
+    public Vertex(int value, List<Vertex> neighbors)
     {
         this.value = value;
         isVisited = false;
@@ -33,29 +33,13 @@ class Vertex<T>
         isVisited = true;
     }
 
-    public void AddEdge(Vertex<T> vertex)
-    {
-        neighbors.Add(vertex);
-    }
-
-    public void AddEdges(List<Vertex<T>> newNeighbors)
-    {
-        neighbors.AddRange(newNeighbors);
-    }
-
-    public void RemoveEdge(Vertex<T> vertex)
-    {
-        neighbors.Remove(vertex);
-    }
-
-
     public override string ToString()
     {
 
         StringBuilder allNeighbors = new StringBuilder("");
         allNeighbors.Append(value + ": ");
 
-        foreach (Vertex<T> neighbor in neighbors)
+        foreach (Vertex neighbor in neighbors)
         {
             allNeighbors.Append(neighbor.value + "  ");
         }

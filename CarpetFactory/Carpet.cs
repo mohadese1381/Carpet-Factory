@@ -11,7 +11,7 @@ public class Carpet
     public double Price { get; set; }
     private List<Colors> allUsedColor = new List<Colors>();
     private int[,] carpetMatrix = new int[300, 400];
-    private UndirectedGenericGraph<Vertex<int>> carpetGraph = new UndirectedGenericGraph<Vertex<int>>(0);
+    private UndirectedGenericGraph carpetGraph;
 
     public Carpet()
     {
