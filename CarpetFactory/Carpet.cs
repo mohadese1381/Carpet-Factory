@@ -9,21 +9,24 @@ public class Carpet
         private set { value = 0;} 
     }
     public double Price { get; set; }
-    private List<Dictionary<int,Colors>> allUsedColor = new List<Dictionary<int,Colors>>();
+    private List<Colors> allUsedColor = new List<Colors>();
     private int[,] carpetMatrix = new int[300, 400];
-    
+    private UndirectedGenericGraph<Vertex<int>> carpetGraph = new UndirectedGenericGraph<Vertex<int>>(0);
+
     public Carpet()
     {
         Id = RandomId;
     }
-
     public double CalculateTotalPrice()
     {
-        return 0;
+        Price = 0;
+        for (int i = 0; i < 300; i++)
+        {
+            for (int j = 0; j < 400; j++)
+            {
+                Price += carpetMatrix[i, j] * 10;
+            }
+        }
+        return Price;
     }
-}
-enum Colors
-{
-    Blue = 1, Green, Black, White, Red, 
-    Gray, Pink, Yellow, Purple, Brown
 }
