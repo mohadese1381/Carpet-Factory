@@ -1,6 +1,6 @@
 ﻿namespace CarpetFactory;
 
-class UndirectedGenericGraph
+class CityGraph
 {
     // The list of vertices in the graph
     private List<Vertex> vertices;
@@ -29,7 +29,7 @@ class UndirectedGenericGraph
     }
 
 
-    public UndirectedGenericGraph(int initialSize)
+    public CityGraph(int initialSize)
     {
         if (size < 0)
         {
@@ -41,7 +41,7 @@ class UndirectedGenericGraph
         adjMatrix = new bool[initialSize, initialSize];
     }
 
-    public UndirectedGenericGraph(List<Vertex> initialNodes)
+    public CityGraph(List<Vertex> initialNodes)
     {
         vertices = initialNodes;
         adjMatrix = new bool[initialNodes.Count, initialNodes.Count];

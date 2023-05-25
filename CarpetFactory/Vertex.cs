@@ -4,9 +4,11 @@ namespace CarpetFactory;
 
 class Vertex
 {
-
     private List<Vertex> neighbors;   
     int value;
+    public bool isCarpetBranch { get; set; }
+    public int x { get; set; }
+    public int y { get; set; }
     bool isVisited;
 
     public List<Vertex> Neighbors { get { return neighbors; } set { neighbors = value; } }

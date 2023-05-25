@@ -12,7 +12,7 @@ public class Carpet
     public int Value { get; set; }
     private List<Colors> allUsedColor = new List<Colors>();
     private int[,] carpetMatrix = new int[300, 400];
-    private UndirectedGenericGraph carpetGraph;
+    //private CityGraph carpetGraph;
 
     public Carpet()
     {
