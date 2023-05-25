@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "ghySo3+ey+E6HycfizxkE7Bb24PamIhZOl/JXXtQ/tW/DZIOp+jAEhCet0Leyp6RUDHEU0+gdkqRCgUWgOopng==",
+  "dgSpecHash": "hwDizTKDY58+r/oJy4lMi6Vha/L8KhX+vlSwjJdGpY2O6vSbb0pdg4El0qD6m8cEbOhNQhhmkWGV+3tKnxAwAA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\CarpetFactory.csproj",
+  "projectFilePath": "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\CarpetFactory.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\feres\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.11\\microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\feres\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.11\\microsoft.windowsdesktop.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\feres\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.11\\microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\feres\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.11\\microsoft.netcore.app.host.win-x64.6.0.11.nupkg.sha512"
+    "C:\\Users\\NOBEL\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.11\\microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\NOBEL\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.11\\microsoft.windowsdesktop.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\NOBEL\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.11\\microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
+    "C:\\Users\\NOBEL\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.11\\microsoft.netcore.app.host.win-x64.6.0.11.nupkg.sha512"
   ],
   "logs": []
 }

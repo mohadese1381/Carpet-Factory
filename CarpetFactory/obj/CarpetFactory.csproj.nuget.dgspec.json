@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\CarpetFactory.csproj": {}
+    "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\CarpetFactory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\CarpetFactory.csproj": {
+    "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\CarpetFactory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\CarpetFactory.csproj",
+        "projectUniqueName": "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\CarpetFactory.csproj",
         "projectName": "CarpetFactory",
-        "projectPath": "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\CarpetFactory.csproj",
-        "packagesPath": "C:\\Users\\feres\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\feres\\Desktop\\Carpet-Factory\\CarpetFactory\\obj\\",
+        "projectPath": "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\CarpetFactory.csproj",
+        "packagesPath": "C:\\Users\\NOBEL\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjectsC#\\CarpetFactory\\CarpetFactory\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\feres\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\NOBEL\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
