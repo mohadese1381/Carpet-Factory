@@ -9,6 +9,7 @@ public class Carpet
         private set { value = 0;} 
     }
     public double Price { get; set; }
+    public int Value { get; set; }
     private List<Colors> allUsedColor = new List<Colors>();
     private int[,] carpetMatrix = new int[300, 400];
     private UndirectedGenericGraph carpetGraph;

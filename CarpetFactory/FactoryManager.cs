@@ -2,6 +2,8 @@
 
 public class FactoryManager
 {
+    
+    //----------------------------------------------M-Coloring
     static public int V;
 
     static private List<Carpet> carpets = new List<Carpet>();
@@ -61,5 +63,52 @@ public class FactoryManager
         }
 
         return false;
+    }
+    
+    //----------------------------------------------KnapSack
+    public static int KnapSack(int capacity, int[] weight, int[] value, int itemsCount)
+    {
+        int carpetCounter = 0;
+        int[,] K = new int[itemsCount + 1, capacity + 1];
+
+        for (int i = 0; i <= itemsCount; ++i)
+        {
+            for (int j = 0; j <= capacity; ++j)
+            {
+                if (i == 0 || j == 0)
+                    K[i, j] = 0;
+                else if (weight[i - 1] <= j)
+                {
+                    K[i, j] = Math.Max(value[i - 1] + K[i - 1, j - weight[i - 1]], K[i - 1, j]);
+                }
+                    
+                else
+                    K[i, j] = K[i - 1, j];
+            }
+        }
+
+        int res = K[itemsCount, capacity];
+        int w = capacity;
+        for (int k = itemsCount; k > 0 && res > 0; k--)
+        {
+            if (res == K[k- 1,w])
+                continue;
+            else
+            {
+                carpetCounter++;
+                res = res - value[k - 1];
+                w = w - weight[k - 1];
+            }
+        }
+            
+       // return K[itemsCount, capacity];//returns maximum value
+       return carpetCounter;
+    }
+    //fill the carpet value---------------------------------------------------------
+    private static int val = (carpets.Count + 1); 
+    public static void FillCarpetValue()
+    {
+         carpets.OrderBy(x => x.Price).ToList().
+         ForEach(x=> x.Value = --val);
     }
 }
