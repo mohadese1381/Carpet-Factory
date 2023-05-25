@@ -219,7 +219,10 @@ public class FactoryManager
             }
 
             var min = personLocCloseVertices.ToList().Min();
-            var inde2 = personLocCloseVertices.ToList().IndexOf(min);//index of closest vertext
-            //find vertex by this index and check it's carpetBranch and pass u and v to the method
+            var index2 = personLocCloseVertices.ToList().IndexOf(min); //index of closest vertext
+            var v = _cityGraph.Vertices[index2];
+            var carpetBranchindex = v.isCarpetBranch ? index2 : -1;
+            if(carpetBranchindex != -1)
+                closeVertices(index, carpetBranchindex);
         }
 }
