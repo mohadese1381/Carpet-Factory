@@ -4,21 +4,41 @@ namespace CarpetFactory;
 
 class Vertex
 {
-    private List<Vertex> neighbors;   
+    private List<Vertex> neighbors;
     int value;
     public bool isCarpetBranch { get; set; }
-    public int x { get; set; }
-    public int y { get; set; }
+    public int x { get; }
+    public int y { get; }
     bool isVisited;
 
-    public List<Vertex> Neighbors { get { return neighbors; } set { neighbors = value; } }
-    public int Value { get { return value; } set { this.value = value; } }
-    public bool IsVisited { get { return isVisited; } set { isVisited = value; } }
-    public int NeighborsCount { get { return neighbors.Count; } }
+    public List<Vertex> Neighbors
+    {
+        get { return neighbors; }
+        set { neighbors = value; }
+    }
 
-    public Vertex(int value)
+    public int Value
+    {
+        get { return value; }
+        set { this.value = value; }
+    }
+
+    public bool IsVisited
+    {
+        get { return isVisited; }
+        set { isVisited = value; }
+    }
+
+    public int NeighborsCount
+    {
+        get { return neighbors.Count; }
+    }
+
+    public Vertex(int value, int x, int y)
     {
         this.value = value;
+        this.x = x;
+        this.y = y;
         isVisited = false;
         neighbors = new List<Vertex>();
     }
@@ -37,7 +57,6 @@ class Vertex
 
     public override string ToString()
     {
-
         StringBuilder allNeighbors = new StringBuilder("");
         allNeighbors.Append(value + ": ");
 
@@ -47,7 +66,5 @@ class Vertex
         }
 
         return allNeighbors.ToString();
-
     }
-
 }
