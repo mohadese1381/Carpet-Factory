@@ -2,79 +2,61 @@
 
 public class FactoryManager
 {
-    static public int V;
-
-    static private List<Carpet> carpets = new List<Carpet>();
-
-    static private CityGraph _cityGraph = new CityGraph(10); 
-
-    private static int[,] path;
-
-    private static  int[,] distance;
-    public static int VerticesCount { get; set; }
+    public static List<Carpet> allCarpets = new List<Carpet>();
+    private static int[,] Next;
+    private static int[,] distance;
+    private static CityGraph cityGraph = new CityGraph();
+    private static int verticesCount;
 
     //----------------------------------------------M-Coloring
-    //Function to display
-    static void Display(int[] color)
+    public static bool ColorGraph(Graph graph, int vertex, int[] colors, int numColors)
     {
-        Console.WriteLine("Solution Exists \n The colors given to vertices are:");
-        for (int i = 0; i < V; i++)
-            Console.WriteLine("Vertex " + (i + 1) + " is given color:" + color[i]);
-        Console.WriteLine();
+        if (vertex == graph.NumVertices) // All vertices have been colored
+        {
+            return true;
+        }
+
+        // Try all possible colors
+        for (int i = 0; i < numColors; i++)
+        {
+            if (IsValidColor(graph, vertex, colors, i))
+            {
+                colors[vertex] = i;
+
+                // Recursively color the remaining vertices
+                if (ColorGraph(graph, vertex + 1, colors, numColors))
+                {
+                    return true;
+                }
+
+                // If we can't color the remaining vertices with this color, backtrack
+                colors[vertex] = -1;
+            }
+        }
+
+        return false;
     }
 
-
-    //Function to check constraints
-    static bool satisfyConstraints(bool[,] Adj_matrix, int[] color)
+    private static bool IsValidColor(Graph graph, int vertex, int[] colors, int color)
     {
-        for (int i = 0; i < V - 1; i++)
+        // Check if any adjacent vertices have the same color
+        foreach (int adjVertex in graph.adjList[vertex])
         {
-            for (int j = i + 1; j < V; j++)
+            if (colors[adjVertex] == color)
             {
-                if (Adj_matrix[i, j] && color[j] == color[i])
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
         return true;
     }
 
-    //Function for m-coloring problem
-    static public bool m_Coloring(bool[,] Adj_matrix, int m, int i, int[] color)
-    {
-        // if current index reached end
-        if (i == V)
-        {
-            // if constraint is satisfied
-            if (satisfyConstraints(Adj_matrix, color))
-            {
-                Display(color);
-                return true;
-            }
-
-            return false;
-        }
-
-
-        // Assign each color from 1 to m
-        for (int j = 1; j <= m; j++)
-        {
-            color[i] = j;
-            // For the rest of the vertices
-            if (m_Coloring(Adj_matrix, m, i + 1, color))
-                return true;
-            color[i] = 0;
-        }
-
-        return false;
-    }
-
     //----------------------------------------------KnapSack
-    public static int KnapSack(int capacity, int[] weight, int[] value, int itemsCount)
+    public static List<Carpet> KnapSack(int capacity, int[] weight, int[] value, int itemsCount)
     {
+        FillCarpetValue();
         int carpetCounter = 0;
+        List<Carpet> carpetsCanBuy = new List<Carpet>();
         int[,] K = new int[itemsCount + 1, capacity + 1];
 
         for (int i = 0; i <= itemsCount; ++i)
@@ -102,63 +84,43 @@ public class FactoryManager
             else
             {
                 carpetCounter++;
+                carpetsCanBuy.Add(FactoryManager.allCarpets[k - 1]);
                 res = res - value[k - 1];
                 w = w - weight[k - 1];
             }
         }
 
-        return carpetCounter;
+        return carpetsCanBuy;
     }
 
-    //fill the carpet value---------------------------------------------------------
-    private static int val = (carpets.Count + 1);
-
-    public static void FillCarpetValue()
+    private static void FillCarpetValue()
     {
-        carpets.OrderBy(x => x.Price).ToList().ForEach(x => x.Value = --val);
+        int val = (allCarpets.Count + 1);
+        allCarpets.OrderBy(x => x.Price).ToList().ForEach(x => x.Value = --val);
     }
 
-    //Floyd algorithm------------------------------------------------------------------
+    //----------------------------------------------Floyd-Warshal
     private const int INF = 10000;
 
-    private static void disp(int[,] distance, int verticesCount)
+    private static void FloydWarshall(int[,] graph, int verticesCount)
     {
-        Console.WriteLine("Distance Matrix for Shortest Distance between the nodes");
-        Console.Write("\n");
-
-        for (int i = 0; i < verticesCount; ++i)
-        {
-            for (int j = 0; j < verticesCount; ++j)
-            {
-                // IF THE DISTANCE TO THE NODE IS NOT DIRECTED THAN THE COST IN iNIFINITY  
-
-                if (distance[i, j] == INF)
-                    Console.Write("INF".PadLeft(7));
-                else
-                    Console.Write(distance[i, j].ToString().PadLeft(7));
-            }
-
-            Console.WriteLine();
-        }
-    }
-
-    public static void FloydWarshall(int[,] graph, int verticesCount)
-    { 
         distance = new int[verticesCount, verticesCount];
-        path = new int[verticesCount, verticesCount];
-        VerticesCount = verticesCount;
-        for(int i = 0; i < verticesCount; i++)
+        Next = new int[verticesCount, verticesCount];
+        FactoryManager.verticesCount = verticesCount;
+
+        for (int i = 0; i < verticesCount; i++)
         {
             for (int j = 0; j < verticesCount; j++)
             {
-                //path[i,j] = graph[i, j] == INF ? -1 : j;
-                path[i, j] = -1;
+                // No edge between node i and j
+                if (graph[i, j] == INF)
+                    Next[i, j] = -1;
+                else
+                    Next[i, j] = j;
+
+                distance[i, j] = graph[i, j];
             }
         }
-        
-        for (int i = 0; i < verticesCount; ++i)
-            for (int j = 0; j < verticesCount; ++j)
-                 distance[i, j] = graph[i, j];
 
         for (int k = 0; k < verticesCount; k++)
         {
@@ -169,60 +131,55 @@ public class FactoryManager
                     if (distance[i, k] + distance[k, j] < distance[i, j])
                     {
                         distance[i, j] = distance[i, k] + distance[k, j];
-                        path[i, j] = k;
+                        Next[i, j] = Next[i, k];
                     }
                 }
             }
         }
-
     }
-   
-        static List<int> closeVertices(int u, int v)
+
+    static List<int> ConstructPath(int u, int v)
+    {
+        // If there's no path between node u and v, simply return an empty array
+        if (Next[u, v] == -1)
+            return null;
+
+        // Storing the path in a vector
+        List<int> path = new List<int>();
+        path.Add(u);
+
+        while (u != v)
         {
-     
-            // If there's no path between
-            // node u and v, simply return
-            // an empty array
-            if (path[u, v] == -1)
-                return null;
- 
-            // Storing the path in a vector
-            List<int> resultPath = new List<int>();
-            resultPath.Add(u);
-     
-            while (u != v)
-            {
-                u = path[u, v];
-                resultPath.Add(u);
-            }
-            return resultPath;
+            u = Next[u, v];
+            path.Add(u);
         }
-        //--------------------
-        /*
-          static void GetPath(int u, int v,List<int> shortestPath)
-         {
-         if (path[u, v] != 0)
-        {
-            GetPath(u,path[u,v],shortestPath);
-            shortestPath.Add(path[u,v]);
-            GetPath(path[u,v],v,shortestPath);
-        }*/
 
-        static void GetClosestFactoryVertex(int x, int y)
-        {
-            int[] personLocCloseVertices = new int [VerticesCount];
-            var personLoc = _cityGraph.Vertices.Where(c => c.x == x && c.y == y).FirstOrDefault();
-            var index = _cityGraph.Vertices.IndexOf(personLoc);//u
-            for (int i = 0; i < VerticesCount; i++)
-            {
-                personLocCloseVertices[i] = distance[index, i];
-            }
+        return path;
+    }
 
+    public static List<int> GetClosestFactoryVertex(int x, int y)
+    {
+        FloydWarshall(cityGraph.adjMatrix, cityGraph.Size);
+
+        int[] personLocCloseVertices = new int [verticesCount];
+        var personLoc = cityGraph.Vertices.Where(c => c.x == x && c.y == y).FirstOrDefault();
+        var index = cityGraph.Vertices.IndexOf(personLoc); //u
+        for (int i = 0; i < verticesCount; i++)
+        {
+            personLocCloseVertices[i] = distance[index, i];
+        }
+
+        var carpetBranchIndex = -1;
+        do
+        {
             var min = personLocCloseVertices.ToList().Min();
-            var index2 = personLocCloseVertices.ToList().IndexOf(min); //index of closest vertext
-            var v = _cityGraph.Vertices[index2];
-            var carpetBranchindex = v.isCarpetBranch ? index2 : -1;
-            if(carpetBranchindex != -1)
-                closeVertices(index, carpetBranchindex);
-        }
+            var index2 = personLocCloseVertices.ToList().IndexOf(min); //index of closest vertex
+            var v = cityGraph.Vertices[index2];
+            carpetBranchIndex = v.isCarpetBranch ? index2 : -1;
+            // if (carpetBranchIndex == -1) personLocCloseVertices.ToList().Remove(min);
+            if (carpetBranchIndex == -1) personLocCloseVertices[index2] = Int32.MaxValue;
+        } while (carpetBranchIndex == -1);
+
+        return ConstructPath(index, carpetBranchIndex);
+    }
 }
