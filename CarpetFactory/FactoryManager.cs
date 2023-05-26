@@ -208,8 +208,10 @@ public class FactoryManager
             GetPath(path[u,v],v,shortestPath);
         }*/
 
+        
         static void GetClosestFactoryVertex(int x, int y)
         {
+           
             int[] personLocCloseVertices = new int [VerticesCount];
             var personLoc = _cityGraph.Vertices.Where(c => c.x == x && c.y == y).FirstOrDefault();
             var index = _cityGraph.Vertices.IndexOf(personLoc);//u
