@@ -1,0 +1,289 @@
+\documentclass[12pt]{article}
+
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{float}
+\usepackage{fontawesome5}
+\usepackage{longtable}
+\usepackage[stable]{footmisc}
+\usepackage[a4paper,
+bindingoffset=0.2in,
+left=0.7in,
+right=0.7in,
+top=0.8in,
+bottom=1.5in,
+footskip=.5in]{geometry}
+\usepackage{xepersian}
+
+\settextfont{Vazirmatn}
+\setlatintextfont{Arial}
+\linespread{1.25}
+
+\author{زهرا معصومی}
+\title{گزارش فنی پروژه الگوریتم (کارخانه فرش‌بافی)}
+
+\begin{document}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.3\textwidth]{img/logo}
+	\end{figure}
+	\begin{center}
+		دانشگاه اصفهان\\
+		دانشکده مهندسی کامپیوتر
+		\vspace{4\baselineskip}
+
+		{\Huge \textbf{گزارش فنی پروژه الگوریتم }}\\
+
+		\vspace{1\baselineskip}
+		\textbf{(کارخانه فرش‌بافی)}\\
+		\vspace{4\baselineskip}
+		\textbf{اعضای گروه:}\\
+		زهرا معصومی (4003623034) \\
+		محدثه آخوندی (4003613002) \\
+
+
+		\vspace{4\baselineskip}
+		{\textbf{استاد:}}
+		دکتر پیمان ادیبی\\
+		\vspace{6\baselineskip}
+		بهار 1402
+
+	\end{center}
+
+	\newpage
+	\tableofcontents
+	\listoffigures
+	\newpage
+
+	\section{شرح کلی}
+	این پروژه،‌ عملیات یک کارخانه فرش‌بافی را انجام می‌دهد که نیاز به سامانه‌ای برای مدیریت و مکانیزه کردن کارهای کارخانه دارد. این سامانه شامل بخش مختلفی همچنون طراحی، فروش، توزیع و ... می‌شود.\\
+	عملیات طراحی برای طراحی فرش‌های جدید،\\
+	فروش برای محاسبه حداکثر تعداد فرشی که یک کاربر می‌تواند بخرد،\\
+	بخش بررسی شباهت برای پیدا کردن فرش‌های مشابه،\\
+	و بخش مسیریابی برای پیدا کردن نزدیک‌ترین شعبه به موقعیت کاربر پیاده‌سازی شده است.
+
+	در این پروژه، عملیات اصلی کارخانه در کلاس \lr{FactoryManager} پیاده‌سازی شده‌اند.
+	این کلاس شامل property های زیر است:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/FactoryManager_cs}
+		\caption{کلاس \lr{FactoryManager}}
+		\label{fig:factorymanagercs}
+	\end{figure}
+	\begin{itemize}
+		\item
+		\lr{allCarpets}
+		که لیستی شامل همه فرش‌های کارخانه می‌باشد. در ابتدای برنامه، این لیست با 10 فرش رندوم پر می‌شود.
+		\item
+		\lr{Next}
+		آرایه‌ای دوبعدی شامل راس‌های کوتاه‌ترین مسیرها بین هر دو راس از گراف شهر.
+		\item
+		\lr{distance}
+		آرایه دوبعدی شامل طول کوتاه‌ترین فاصله بین هر دو راس از راس‌های گراف شهر.
+		\item
+		\lr{CityGraph}
+		گراف نقشه شهر.
+		\item
+		\lr{verticesCount}
+		تعداد راس‌های گراف.
+	\end{itemize}
+
+	در ادامه ‌هر بخش از پروژه این سامانه به طور مجزا توضیح داده شده است.
+	\newpage
+	\section{گزارش‌کار الگوریتم}
+	\subsection{بخش اول: طراحی}
+	در این بخش، می‌خواهیم فرش‌های جدید را به سفارش مشتری طراحی کنیم. برای این کار، کاربر تعداد اشکال هندسی موردنظر و ارتباط آن‌ها را وارد می‌کند و در خروجی،‌ حداقل تعداد رنگ برای رنگ‌آمیزی آن‌ها و رنگ هر شکل را تحویل می‌گیرد.
+
+	برای این کار، از الگوریتم "رنگ‌آمیزی گراف (\lr{m-coloring})" و رویکرد Backtracking کمک می‌گیریم.
+
+	در تابع
+	\lr{\textbf{ColorGraph}}
+	گراف موردنظر برای رنگ‌آمیزی (که شامل اشکال هندسی فرش و ارتباط آن‌ها است)، تعداد راس‌های گراف، آرایه‌ای از رنگ‌ها که هر خانه آن رنگ راس متناظر در گراف را نشان می‌دهد. در نهایت عددی به عنوان حداکثر تعداد رنگ‌های مجاز از ورودی می‌گیرد.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/m-coloring}
+		\caption{تابع \lr{ColorGraph}}
+		\label{fig:m-coloring}
+	\end{figure}
+	در این الگوریتم، به ازای هر راس یک فراخوانی بازگشتی برای رنگ‌آمیزی آن داریم.
+	به این صورت که مانند همه الگوریتم‌های Backtracking ، ابتدا شرط امکان‌پذیر بودن بررسی می‌شود. در صورتی که رنگ‌آمیزی راسی با رنگ مشخص شده امکان‌پذیر بود، رنگ آن را در آرایه رنگ‌ها قرار داده و به سراغ راس بعدی می‌رویم. در صورتی که رنگ‌ها تمام شوند و رنگی برای آن راس پیدا نشود، مقدار آن خانه از آرایه را برابر -1 قرار می‌دهیم و در پایان نیز مفدار false به معنای "عدم امکان‌پذیر بودن رنگآمیزی گراف با رنگ‌های موجود" برمی‌گردانیم. (در این مرحله هرس کردن اتفاق می‌افتد.)
+
+	تابع \textbf{isValidColor} که برای بررسی شرط امکان‌پذیر بودن استفاده شد، ‌راس و رنگ موردنظر را دریافت کرده و بررسی می‌کند که در همسایه‌های آن راس، راسی با رنگ یکسان وجود نداشته باشد. در این صورت تابع مقدار true برمی‌گرداند.
+
+پیچیدگی زمانی این الگوریتم در بدترین حالت برابر
+ 	$O(m^V)$
+   است. ( m تعداد رنگ‌ها و V تعداد راس‌های گراف است.)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/isValidColor}
+		\caption{تابع \lr{isValidColor}}
+		\label{fig:isvalidcolor}
+	\end{figure}
+نمونه اجرای برنامه:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/graph-to-color}
+		\caption{گراف موردنظر برای رنگ‌آمیزی}
+		\label{fig:graph-to-color}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/run-result-1}
+		\caption{نتیجه اجرای الگوریتم رنگ‌آمیزی}
+		\label{fig:run-result-1}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/colored-graph}
+		\caption{گراف رنگ‌آمیزی شده}
+		\label{fig:colored-graph}
+	\end{figure}
+
+	\newpage
+	\subsection{بخش دوم: بررسی فرش‌های مشابه}
+	در این بخش برای پیدا کردن فرش‌های مشابه با یک فرش، از الگوریتم "هم‌ترازی دنباله‌ها" و کتابخانه‌های زبان پایتون استفاده می‌کنیم. با استفاده از کتابخانه \lr{Pill} تصویر فرش را در برنامه لود کرده و عرض آن‌ها را یکسان می‌کنیم. سپس برای هر پیکسل تصویر، مقدار \lr{RGB} آن را به دست آورده و آن‌ها را در یک ماتریس ذخیره می‌کنیم.\\
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/main_py}
+		\caption{شروع برنامه و لود کردن تصویر فرش‌ها در برنامه}
+		\label{fig:mainpy}
+	\end{figure}
+
+	یا استفاده از الگوریتم هم‌ترازی دنباله‌ها، هر سطر از ماتریس طرح فرش را به تابع
+	\lr{get\_minimum\_penalty}
+	می‌دهیم تا تصویر را به صورت افقی تراز کنیم و میزان شباهت را پیدا کنیم.
+
+	در این الگوریتم نیاز به تعیین مقدار پنالتی برای حالت برابر نبودن دو عنصر از دو آرایه داریم. ما این مقدار را برابر تفاوت مولفه‌های RGB هر دو آرایه در نظر می‌گیریم:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/price()}
+		\caption{تابع تعیین price}
+		\label{fig:price}
+	\end{figure}
+	شیوه کار الگوریتم به این صورت است که با استفاده از رویکرد برنامه‌ریزی پویا، آرایه دوبعدی \lr{dp} را برای ذخیره امتیاز هر دو عدد از دو آرایه ایجاد می‌کنیم. امتیاز هر دو عدد، با توجه به برابر بودن یا وجود فاصله‌ها تعیین می‌شود. اگر دو عدد برابر بودند چیزی به پنالتی افزوده نمی‌شود، ولی درغیر این‌صورت،‌ سه حالت با توجه به برابر نبودن دو عدد یا برابر نبودن طول آرایه‌ها و ایجاد فاصله (gap) ایجاد می‌شود که برای هر حالت یک مقدار مشخص پنالتی به خانه مربوط به آن اضافه می‌کنیم. از بین آن‌ها کم‌ترین مقدار را به عنوان مقدار خانه جدید dp در نظر می‌گیریم.
+	نهایتاً خانه آخر این آرایه، کم‌ترین مقدار پنالتی‌های به دست آمده را به ما می‌دهد.\\
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/get_minimum_penalty}
+		\caption{تابع \lr{get\_minimum\_penalty}}
+		\label{fig:getminimumpenalty}
+	\end{figure}
+	چون فرش‌های ما آرایه‌های دوبعدی هستند، برای همه سطرهای ماتریس طرح فرش، این متد را (با مقدار دلخواه 250 برای پنالتی gap) صدا زده و نتیجه آن‌ها را با هم جمع می‌کنیم. عدد حاصل، کم‌ترین پنالتی برای مقایسه فرش موردنظر و فرش دیگر است. با به دست آوردن این مقدار برای همه فرش‌ها، عددی که کم‌ترین مقدار و در نتیجه بیشترین تشابه را با فرش موردنظر دارد، شبیه‌ترین فرش به آن است.
+
+	پیچیدگی زمانی این الگوریتم در بدترین حالت برابر
+	$O(m*n)$
+	است.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/sequence-alignment-call}
+		\caption{فراخوانی sequenceAlignment برای هر سطر از ماتریس فرش‌ها}
+		\label{fig:sequence-alignment-call}
+	\end{figure}
+	نمونه اجرای برنامه برای دو فرش مشابه:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/run-result-2-1}
+		\caption{اجرای دو فرش مشابه : \lr{4.070.531}}
+		\label{fig:run-result-2-1}
+	\end{figure}
+		نمونه اجرای برنامه برای دو فرش با شباهت کمتر:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/run-result-2-2}
+		\caption{اجرای دو فرش با شباهت کمتر : \lr{5.067.044}}
+		\label{fig:run-result-2-2}
+	\end{figure}
+	همان‌طور که مشاهده می‌کنیم، مقدار به دست آمده در اجرای اول که دو فرش مشابه‌تر هستند، کمتر از اجرای دوم (با دو فرش با شباهت کمتر) می‌باشد.
+
+	(با توجه به طولانی بودن اجرای الگوریتم، حلقه برای مقایسه همه فرش‌ها برداشته شد و تنها دو تصویر باهم مقایسه می‌شوند.)
+
+	\newpage
+	\subsection{بخش سوم: خرید بر اساس میزان پول}
+	در این بخش می‌خواهیم با داشتن میزان هزینه‌ای که کاربر می‌تواند پرداخت کند، حداکثر تعداد فرش‌هایی که می‌تواند بخرد را به او معرفی کنیم.
+
+	برای این کار از الگوریتم کوله‌پشتی و رویکرد برنامه‌ریزی پویا بهره می‌بریم.
+
+	این تابع بر اساس ظرفیت کوله‌پشتی که همان میزان پول قابل پرداخت توسط کاربر است نوشته شده است. وظیفه این تابع این است که فرش‌هایی را به کاربر برای خرید پیشنهاد دهد که جمع قیمت آن‌ها برابر با پول قابل پرداخت توسط کاربر باشد؛ با این شرط که فرش‌ها را با بیشترین ارزش در اولویت قرار دهد.
+
+	ابتدا توسط تابع
+	FillCarpetValue
+	فرش ها را بر اساس قیمت آن ها مرتب‌سازی می‌کنیم. در نتیجه این تابع، فرشی با قیمت کمتر بیشترین ارزش را دارا می‌شود.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/FillCarpetValue}
+		\caption{تابع FillCarpetValue}
+		\label{fig:fillcarpetvalue}
+	\end{figure}
+	این تابع با دریافت میزان کل پول طرف به عنوان گنجایش کوله‌پشتی، قیمت هر فرش، ارزش هر فرش و تعداد کل فرش‌های موجود به عنوان پارامتر ورودی، به محاسبه تعداد فرش های قابل پرداخت برای فرد می‌پردازد. نهایتاً تعداد فرش‌ها و هم فرش‌های انتخاب شده را به کاربر نشان می دهد.
+
+پیچیدگی زمانی این الگوریتم در بدترین حالت برابر
+ 	$O(capacity*itemsCount)$
+ است.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/knapstack}
+		\caption{تابع Knapstack}
+		\label{fig:knapstack}
+	\end{figure}
+
+	این تابع تمامی فرش‌ها را تک‌به‌تک چک می‌کند و سپس آرایه دوبعدی K را با محاسبه 	ماکسیمم مقدار بین فرش‌ها در مقایسه با بقیه، پر می کند.
+
+	\newpage
+	\subsection{بخش چهارم: مسیریابی به نزدیک‌ترین شعبه}
+	از آن جایی که کارخانه شعبات زیادی دارد، این سامانه دارای بخشی است که کاربر می‌تواند با وارد کردن مختصات خود، نزدیک‌ترین شعبه به خود را بیابد و مسیر رفتن به آن نقطه را پیدا کند. شهر فرضی ما شامل چهارراه‌هایی است که به یکدیگر متصل هستند. این نقاط به همراه خیابان‌های بین آن‌ها از قبل به سیستم معرفی می‌شوند.
+
+	برای پیاده‌سازی این بخش، از الگوریتم فلوید-وارشال و رویکرد برنامه‌ریزی پویا استفاده می‌کنیم.
+
+	در این الگوریتم، دو آرایه دوبعدی distance و Next داریم که در اولی، کوتاه‌ترین فاصله بین دو راس از گراف و در دومی، کوتاه‌ترین مسیر برای رسیدن از یک راس به راس دیگر را ذخیره می‌کنیم.
+	سپس این دو ماتریس را مقداردهی اولیه می‌کنیم.
+
+	در شروع الگوریتم، هر دو راس i و j از گراف را در نظر می‌گیریم. اگر بین آن‌ها راسی مانند k وجود داشته باشد، به صورتی که مجموع فاصله i تا k و فاصله k تا j کمتر از مسیر مستقیم از i به j باشد، آن را در خانه i , j از آرایه ذخیره می‌کنیم و در ماتریس Next هم آن را به مسیر اضافه می‌کنیم. درغیر این‌صورت تغییر خاصی نمی‌کند و همان مقدار قبلی (فاصله مستقیم از i به j ) می‌ماند. به همین صورت پیش رفته و ماتریس distance و Next را پر می‌کنیم.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/FloydWarshall}
+		\caption{تابع FloydWarshal}
+		\label{fig:floydwarshall}
+	\end{figure}
+	سپس در تابع ConstructPath راس‌های موجود در مسیر بین دو راس u و v را به لیستی اضافه کرده و آن را ریترن می‌کنیم.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/ConstructPath}
+		\caption{تابع ConstructPath}
+		\label{fig:constructpath}
+	\end{figure}
+	در نهایت، با استفاده از تابع GetClosestFactoryVertex مختصات کاربر را گرفته و راسی که در آن قرار دارد را پیدا می‌کنیم. سپس در ماتریس distance و در سطر مربوط به آن راس،‌ جستجو کرده و نزدیک‌ترین راس به آن را پیدا می‌کنیم. سپس با تابع ConstructPath ،‌ مسیر بین آن دو را پیدا کرده و به صورت یک لیست برمی‌گرداند.
+
+	پیچیدگی زمانی این الگوریتم در بدترین حالت برابر
+	 $O(V^3)$
+	 است. ( V تعداد راس‌های گراف است.)
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/GetClosestFactoryVertex}
+		\caption{تابع GetClosestFactoryVertex}
+		\label{fig:getclosestfactoryvertex}
+	\end{figure}
+
+	نمونه اجرای برنامه:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/CityGraph}
+		\caption{نقشه شهر و خیابان‌ها}
+		\label{fig:citygraph}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/run-result-4}
+		\caption{اجرای برنامه برای پیدا کردن کوتاه‌ترین مسیر}
+		\label{fig:run-result-4}
+	\end{figure}
+	همین‌طور که می‌بینیم، ما در موقعیت (3,3) قرار داریم که راس 3 در نقشه شهر است.
+	نزدیک‌ترین شعبه به موقعیت کاربر ، راس  7 است که از مسیر راس 6 می‌گذرد.
+	\newpage
+\end{document}
